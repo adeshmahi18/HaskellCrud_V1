@@ -16,7 +16,7 @@ type PersonAPI = "persons" :> Get '[JSON] [Person]   -- GET /persons
                 :<|> "persons" :> Capture "id" Int :> Delete '[JSON] ()   -- DELETE /persons/:id
 
 -- Define the Address API
-type AddressAPI = "addresses" :> Get '[JSON] [Address]   -- GET /addresses
+type AddressAPI = "addresses" :> Get '[JSON] [(Person, Address)]   -- GET /addresses
                  :<|> "addresses" :> ReqBody '[JSON] Address :> Post '[JSON] Address  -- POST /addresses
                  :<|> "addresses" :> ReqBody '[JSON] Address :> Put '[JSON] Address  -- PUT /addresses
                  :<|> "addresses" :> Capture "id" Int :> Delete '[JSON] ()   -- DELETE /addresses/:id
@@ -41,7 +41,7 @@ deletePerson personId = do
   return ()
 
 -- Define the handlers for Address
-fetchAddresses :: Handler [Address]
+fetchAddresses :: Handler [(Person, Address)]
 fetchAddresses = liftIO fetchAddressesQ
 
 insertAddress :: Address -> Handler Address

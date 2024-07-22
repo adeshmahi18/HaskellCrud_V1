@@ -23,4 +23,5 @@ data Address = Address
   , addressStreet :: String
   , addressCity   :: String
   , addressZip    :: String
+  ,  personMapId :: Int
   } deriving (Eq, Show, Generic, FromRow, ToRow, ToJSON, FromJSON)

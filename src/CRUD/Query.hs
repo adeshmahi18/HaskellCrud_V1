@@ -19,6 +19,8 @@ fetchPersonsQ = do
   close conn
   pure personList
 
+
+
 insertPersonQ :: Person -> IO ()
 insertPersonQ person = do
   conn <- getConn
@@ -38,17 +40,18 @@ deletePersonQ personId = do
   close conn
 
 -- Address queries
-fetchAddressesQ :: IO [Address]
+fetchAddressesQ :: IO [(Person, Address)]
 fetchAddressesQ = do
   conn <- getConn
-  addressList <- query_ conn "SELECT * FROM addresses;"
+  rows <- query_ conn "SELECT p.person_id, p.person_name, p.age, a.address_id, a.address_street, a.address_city, a.address_zip, a.person_map_id FROM persons p JOIN addresses a ON p.person_id = a.person_map_id;"
   close conn
-  pure addressList
+  return $ map (\(pid, pname, page, aid, astreet, acity, azip, apid) ->
+    (Person pid pname page, Address aid astreet acity azip apid)) rows
 
 insertAddressQ :: Address -> IO ()
 insertAddressQ address = do
   conn <- getConn
-  execute conn "INSERT INTO addresses (address_id, address_street, address_city, address_zip) VALUES (?,?,?,?);" address
+  execute conn "INSERT INTO addresses (address_id, address_street, address_city, address_zip,person_map_id) VALUES (?,?,?,?,?);" address
   close conn
 
 updateAddressQ :: Address -> IO ()
