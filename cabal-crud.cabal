@@ -62,7 +62,9 @@ library
     exposed-modules:  MyLib
                       , CRUD.Query
                       , CRUD.Core
-                      
+                      , CRUD.Model
+
+
 
     -- Modules included in this library but not exported.
     -- other-modules:

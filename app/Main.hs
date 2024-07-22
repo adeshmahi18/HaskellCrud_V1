@@ -1,6 +1,14 @@
 module Main where
 
-import CRUD.Core as C
+import Network.Wai.Handler.Warp (run)
+import CRUD.Core (app)
 
+-- Main function to start the server
 main :: IO ()
-main = C.main
+main = do
+  putStrLn "Server started at port 8080"
+  run 8080 app -- or run 8080 app1
+
+-- Test function
+test :: IO ()
+test = putStrLn "Hello from Main"
